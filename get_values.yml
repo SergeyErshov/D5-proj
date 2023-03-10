@@ -1,0 +1,14 @@
+- name: values.yml
+  hosts: test
+  gather_facts: false
+  become: true
+  become_user: "root"
+  become_method: "sudo"
+
+  tasks:
+
+    - name: fetch values.yaml
+      fetch:
+        src: /home/esm/values.yaml
+        dest: ./
+        flat: yes
