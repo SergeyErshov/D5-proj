@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  labels:
+    app: redis
+    component: myapp
+    release: redis
+spec:
+  replicas: {{ .Values.redis.replicas }}
+  selector:
+    matchLabels:
+      app: redis
+      component: myapp
+      release: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+        component: myapp
+        release: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:latest
+        ports:
+        - containerPort: 6379
+  {{- if eq $.Values.limits.enabled "true"}}
+    resources:
+      limits:
+        cpu: {{ $.Values.limits.cpu }}
+        memory: {{ $.Values.limits.memory }}
+  {{- end }}
