@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+    component: myapp-ngx
+    release: nginx
+spec:
+  replicas: {{ .Values.redis.replicas }}
+  selector:
+    matchLabels:
+      app: nginx
+      component: myapp-ngx
+      release: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        component: myapp-ngx
+        release: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+  {{- if eq $.Values.limits.enabled "true"}}
+    resources:
+      limits:
+        cpu: {{ $.Values.limits.cpu }}
+        memory: {{ $.Values.limits.memory }}
+  {{- end }}

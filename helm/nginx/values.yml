@@ -1,0 +1,7 @@
+nginx:
+  replicas: 1
+
+limits:
+  enabled: false
+  cpu: "1000m"
+  memory: "500Mi"
